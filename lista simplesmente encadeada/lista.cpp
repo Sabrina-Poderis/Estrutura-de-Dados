@@ -1,44 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
-#include "listadupla.h"
+#include "lista.h"
+
+Lista *lst = lista_cria(); /*Lista declarada como global
+para percorrer funções sem precisar utilizar parâmetros*/
 
 void cadastrar();
 void cadastro_automatico();
 void excluir();
-void exibe();
-void exibe_reverso();
 void buscar();
 void total();
-void media();
-void maior_menor();
-void vizinhos();
+void soma();
+void impar();
+void par();
+void proximo();
 void esvazia();
-
-Lista2 *lst = lista_cria(); /*Lista declarada como global
-para percorrer funções sem precisar utilizar parâmetros*/
 
 void menu(){
 	system ("cls");
-	int opcao=0;
-	printf("-------- CRUD de Números --------");
+	printf("-------- Lista Simplesmente Encadeada --------");
 	lista_exibe(lst);
 	printf("1.  Cadastrar Números\n");
 	printf("2.  Cadastro Automático\n");
 	printf("3.  Excluir Números\n");
-	printf("4.  Exibir Números\n");
-	printf("5.  Exibir Números Inversamente\n");
-	printf("6.  Procura Número\n");
-	printf("7.  Total de Números\n");
-	printf("8.  Média de Números\n");
-	printf("9.  Maior e Menor Números\n");
-	printf("10. Vizinhos\n");
-	printf("11. Zerar Lista\n");
-	printf("12. Sair do Programa\n\n");
+	printf("4.  Procura Número\n");
+	printf("5.  Total de Números\n");
+	printf("6.  Soma elementos\n");
+	printf("7.  Mostra ímpares\n");
+	printf("8.  Mostra pares\n");
+	printf("9.  Próximo elemento da lista\n");
+	printf("10. Zerar Lista\n");
+	printf("11. Sair do Programa\n\n");
 	printf("Escolha uma opção: ");
+}
+
+int main (){
+	int opcao=0;
+	setlocale(LC_ALL,"");
+	menu();
 	
 	do scanf("%d", &opcao);
-	while(opcao==0 || opcao > 12);
+	while(opcao==0 || opcao > 10);
 	
 	system("cls");
 	switch(opcao){	
@@ -55,38 +58,34 @@ void menu(){
 		break;
 			
 		case 4:
-			exibe();
+			buscar();
 		break;
 			
 		case 5:
-			exibe_reverso();
+			total();
 		break;
 			
 		case 6:
-			buscar();
+			soma();
 		break;
 		
 		case 7:
-			total();
+			impar();
 		break;
 		
 		case 8:
-			media();
+			par();
 		break;
 		
 		case 9:
-			maior_menor();
+			proximo();
 		break;
 		
 		case 10:
-			vizinhos();
-		break;
-						
-		case 11:
 			esvazia();
 		break;
 		
-		case 12:
+		case 11:
 			exit(1);
 	}
 }
@@ -114,7 +113,7 @@ void cadastrar(){
 	if(repetir == 's')
 		cadastrar();
 	else if (repetir == 'n')
-		menu();
+		main();
 }
 
 void cadastro_automatico(){
@@ -137,11 +136,10 @@ void cadastro_automatico(){
 			lst = lista_insere(lst, i);
 
 		lista_exibe(lst);
-		system("pause"); menu();
 	} else {
 		printf("A lista deve estar vazia para inserir automaticamente\n\n");
-		system("pause"); menu();
 	}
+	system("pause"); main();
 }
 
 void excluir(){
@@ -168,19 +166,7 @@ void excluir(){
 	if(repetir == 's')
 		excluir();
 	else if (repetir == 'n')
-		menu();
-}
-
-void exibe(){
-	system ("cls");
-	lista_exibe(lst);
-	system("pause"); menu();
-}
-
-void exibe_reverso(){
-	system ("cls");
-	lista_exibe_reverso(lst);
-	system("pause"); menu();
+		main();
 }
 
 void buscar(){
@@ -204,53 +190,40 @@ void buscar(){
 	if(repetir == 's')
 		buscar();
 	else if (repetir == 'n')
-		menu();
+		main();
 }
 
 void total(){
 	system ("cls");
-	printf("*** Total de Números ***\n\n");
-	
-	if(lst != NULL)
-		printf("O Total de números é: %d\n\n", total_numeros(lst));
-	else
-		printf("Não é possível obter o total porque a lista está vazia\n\n");
-	
-	system("pause"); menu();
+	total_numeros(lst);	
+	system("pause"); main();
 }
 
-void media(){
+void soma(){
 	system ("cls");
-	printf("*** Média de Números ***\n\n");
-	
-	if(lst != NULL)
-		printf("A Média dos números é: %.2f\n\n", media_numeros(lst));
-	else
-		printf("Não é possível obter a média porque a lista está vazia\n\n");
-	
-	system("pause"); menu();
+	soma_numeros(lst);
+	system("pause"); main();
 }
 
-void maior_menor(){
+void impar(){
 	system ("cls");
-	printf("*** Maior e Menor Números ***\n\n");
-	
-	if(lst != NULL)
-		printf("O Maior Número é: %d\nO Menor Número é: %d\n\n", maior_numero(lst), menor_numero(lst));
-	else
-		printf("Não é possível obter o maior e menor número porque a lista está vazia\n\n");
-	
-	system("pause"); menu();
+	lista_impares(lst);
+	system("pause"); main();
 }
 
-void vizinhos(){
+void par(){
+	system ("cls");
+	lista_pares(lst);
+	system("pause"); main();
+}
+
+void proximo(){
 	int num; char repetir;	
 	system ("cls");
 	
-	printf("*** Vizinhos ***\n\n");
-	printf("Cada elemento de uma Lista Duplamente encadeada tem um ponteiro tanto\n");
-	printf("para o seu próximo como para o seu anterior. Busque um número da lista\n"); 
-	printf("para saber o seu próximo e o seu anterior!");
+	printf("*** Próximo ***\n\n");
+	printf("Cada elemento de uma Lista simplesmente encadeada tem um ponteiro para\n");
+	printf("o seu próximo. Busque um número da lista para saber o seu próximo!");
 	lista_exibe(lst);
 	
 	if(lst != NULL){
@@ -260,18 +233,19 @@ void vizinhos(){
 		if(lista_busca(lst, num) == NULL)
 			printf("\nNão foi achado o número!\n");
 		else
-			vizinhos(lst, num);	
+			lista_proximo(lst, num);	
 		
 		printf("\nDeseja buscar outro número? [s]Sim [n]Não:  ");
 		do scanf("%c", &repetir);
 		while((repetir != 's')  && (repetir != 'n'));
 			
 		if(repetir == 's')
-			vizinhos();
+			proximo();
 		else if (repetir == 'n')
-			menu();
+			main();
 	} else {
 		printf("Não é possível encontrar os vizinhos porque a lista está vazia\n\n");
+		system("pause"); main();
 	}
 }
 
@@ -279,11 +253,5 @@ void esvazia(){
 	system ("cls");
 	lista_esvazia(lst);//retira elementos da lista
 	lst = lista_cria();//cria lista novamente
-	printf("Lista zerada!\n\n");
-	system("pause"); menu();
-}
-
-int main (){
-	setlocale(LC_ALL,"");
-	menu();	
+	system("pause"); main();
 }

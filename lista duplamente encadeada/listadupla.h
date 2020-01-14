@@ -83,31 +83,46 @@ Lista2* lista_retira(Lista2* li, int dado){
 void lista_esvazia(Lista2 *li){
     Lista2 *p,*t;
     p=li;
-    while(p!=NULL){
-    	t=p->prox;
-    	free(p);//libera o item da lista
-    	p=t;
-	}                   
+    if (p == NULL){
+    	printf("A lista já está vazia!\n\n");
+	} else {
+		while(p!=NULL){
+	    	t=p->prox;
+	    	free(p);//libera o item da lista
+	    	p=t;
+		}  	
+		printf("Lista zerada!\n\n");
+	}           
 }
 
 /*retorna total de numeros maior que o numero informado*/
-int total_numeros (Lista2 *li){
+void total_numeros (Lista2 *li){
 	Lista2 *aux; int tot=0;
-	for(aux=li;aux!=NULL; aux=aux->prox){
-		tot++;
+	printf("*** Total de Números ***\n\n");
+	if(li != NULL){
+		for(aux=li;aux!=NULL; aux=aux->prox)
+			tot++;	
+		printf("O Total de números é: %d\n\n", tot);
+	}else{
+		printf("Não é possível obter o total porque a lista está vazia\n\n");
 	}
-	return tot;
 }
 
 /*retorna media dos numeros*/
-float media_numeros (Lista2 *prox){
+void media_numeros (Lista2 *prox){
 	Lista2 *aux; float tot, soma;
-	for(aux=prox;aux!=NULL; aux=aux->prox){
-		soma = soma + aux->info;
-		tot++;
+	printf("*** Média de Números ***\n\n");
+	if(prox != NULL){
+		for(aux=prox;aux!=NULL; aux=aux->prox){
+			soma = soma + aux->info;
+			tot++;
+		}
+		printf("A Média dos números é: %.2f\n\n", soma/tot);
+	} else {
+		printf("Não é possível obter a média porque a lista está vazia\n\n");
 	}
-	return soma/tot;
 }
+
 
 /* retorna maior numero */
 int maior_numero(Lista2 *li){
@@ -146,24 +161,22 @@ int menor_numero(Lista2 *li){
 }
 
 /* printa os elementos adjacentes de um elemento X*/
-void vizinhos(Lista2 *li, int dado) {
+void lista_vizinhos(Lista2 *li, int dado) {
 	Lista2 *aux = li;
-	if(aux==NULL){
-		printf("Lista Vazia\n\n");
-	}else{
+	/*if(aux==NULL){ 				O programa principal já verifica se a lista está vazia,
+		printf("Lista Vazia\n\n");  adicionar esta linha se necessário
+	}else{*/
 		for(aux=li;aux!=NULL;aux=aux->prox){
 			if(aux->info == dado) {
-				if(aux->ant != NULL){
+				if(aux->ant != NULL)
 					printf("Anterior: %d\n", aux->ant->info);
-				}else{
+				else
 					printf("Não tem anterior\n");
-				}
-				if(aux->prox != NULL){
+				if(aux->prox != NULL)
 					printf("Próximo: %d\n", aux->prox->info);
-				}else{
+				else
 					printf("Não tem próximo\n");
-				}
 			}	
 		}
-	}
+	//}
 }
