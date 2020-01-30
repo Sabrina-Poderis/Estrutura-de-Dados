@@ -199,7 +199,7 @@ void buscar(){
 	if(lista_busca(lst, num) == NULL)
 		printf("\nNão foi achado o número!\n");
 	else
-		printf("\nO numero %d está na lista!\n");	
+		printf("\nO numero %d está na lista!\n", num);
 		
 	printf("\nDeseja buscar outro número? [s]Sim [n]Não:  ");
 	do scanf("%c", &repetir);
